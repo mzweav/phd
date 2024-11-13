@@ -243,12 +243,12 @@ hasHCom𝟚0-hprop = discFill-hprop
     aext : _
     aext = hcomA `0 `1 _ t' b'
 
-  hasHCom𝟚0-to-DiscreteFn :
+  discFill-to-isDisc :
     ∀{l} (A : Set l)
     (discA : hasHCom𝟚0 A)
     →
     DiscreteFn A
-  hasHCom𝟚0-to-DiscreteFn A discA x y p = (λ i → fst (pA i)) ,  fst (snd p) ∘ ! (fst (snd (pA `0)) (inl id)) , snd (snd p) ∘ ! (fst (snd (pA `1)) (inr id)) where
+  discFill-to-isDisc A discA x y p = (λ i → fst (pA i)) ,  fst (snd p) ∘ ! (fst (snd (pA `0)) (inl id)) , snd (snd p) ∘ ! (fst (snd (pA `1)) (inr id)) where
 
     t : (i : I) → (z : 𝟚) → ((i == `0) ∨ (i == `1)) → A
     t i z = ∨-elim _ (λ _ → fst p ``0)
@@ -261,13 +261,17 @@ hasHCom𝟚0-hprop = discFill-hprop
     pA : (i : I) → _
     pA i = discA ``1 ((i == `0) ∨ (i == `1)) (t i) (b i)
 
-  DiscreteFn-to-hasHCom𝟚0 :
+  hasHCom𝟚0-to-DiscreteFn = discFill-to-isDisc
+
+  isDisc-to-discFill :
     ∀{l} (A : Set l)
     (hcomA : hasHCom A)
     (discfA : DiscreteFn A)
     →
     hasHCom𝟚0 A
-  DiscreteFn-to-hasHCom𝟚0 A hcomA discfA = hasHCom𝟚01-to-hasHCom𝟚0 (DiscreteFn-to-hasHCom𝟚01 A hcomA discfA)
+  isDisc-to-discFill A hcomA discfA = hasHCom𝟚01-to-hasHCom𝟚0 (DiscreteFn-to-hasHCom𝟚01 A hcomA discfA)
+
+  DiscreteFn-to-hasHCom𝟚0 = isDisc-to-discFill
 
   hasHCom𝟚-to-DiscreteFn :
     ∀{l} (A : Set l)
